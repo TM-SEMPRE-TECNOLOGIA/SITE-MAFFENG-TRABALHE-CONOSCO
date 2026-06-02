@@ -702,6 +702,15 @@
     .footer-bottom span { font-size: 12px; color: rgba(255,255,255,0.25); }
     .footer-bottom a { color: rgba(255,255,255,0.45); transition: color .2s; }
     .footer-bottom a:hover { color: var(--red); }
+    .footer-credit {
+      background: var(--red); padding: 7px 24px;
+      text-align: center;
+    }
+    .footer-credit span {
+      font-family: var(--font); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+    }
 
     /* ── WA FLOAT ────────────────────────────────────── */
     .wa-float {
@@ -1220,6 +1229,9 @@
       <span>© 2025 MAFFENG Engenharia e Manutenção · CNPJ 33.624.704/0001-94</span>
       <span>Desenvolvido por <a href="https://thiagonascimentobarbosapro.com" target="_blank" rel="noopener">TM — Sempre Tecnologia</a></span>
     </div>
+    <div class="footer-credit">
+      <span>Desenvolvido por TM Sempre Tecnologia</span>
+    </div>
   </footer>
 
   <!-- WA FLUTUANTE -->
@@ -1228,6 +1240,13 @@
   </a>
 
   <script>
+    /* ── CAROUSEL — duplicar items para loop infinito sem salto ── */
+    (function() {
+      const track = document.querySelector('.carousel-track');
+      if (!track) return;
+      Array.from(track.children).forEach(item => track.appendChild(item.cloneNode(true)));
+    })();
+
     /* ── HEADER scroll ── */
     const hdr = document.getElementById('hdr');
     window.addEventListener('scroll', () => {
