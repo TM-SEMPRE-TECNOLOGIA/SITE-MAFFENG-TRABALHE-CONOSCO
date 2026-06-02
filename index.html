@@ -480,11 +480,9 @@
     .carousel-blur-right { right: 0; background: linear-gradient(to left,  var(--light) 0%, rgba(245,245,243,0.85) 40%, transparent 100%); }
     .carousel-track {
       display: flex; gap: 42px;
-      animation: carousel-marquee 16s linear infinite;
+      will-change: transform;
     }
-    .carousel-track:hover { animation-play-state: paused; }
     @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-    @keyframes carousel-marquee { 0%{transform:translateX(0)} 100%{transform:translateX(calc(-50% - 21px))} }
     .cl-logo {
       flex: 0 0 auto; width: 148px; height: 56px;
       display: flex; align-items: center; justify-content: center;
@@ -704,7 +702,7 @@
     .footer-bottom a { color: rgba(255,255,255,0.45); transition: color .2s; }
     .footer-bottom a:hover { color: var(--red); }
     .footer-credit {
-      background: var(--red); padding: 7px 24px;
+      background: #7a0010; padding: 5px 24px;
       text-align: center;
     }
     .footer-credit span,
@@ -766,7 +764,6 @@
       /* carrossel — blurs menores para não engolir os logos */
       .clients { padding: 36px 24px; }
       .carousel-blur-left, .carousel-blur-right { width: 40px; }
-      .carousel-track { animation-duration: 6s; }
 
       /* hero */
       .hero-img { margin-top: var(--hh); }
@@ -1242,11 +1239,31 @@
   </a>
 
   <script>
-    /* ── CAROUSEL — duplicar items para loop infinito sem salto ── */
+    /* ── CAROUSEL — loop infinito via rAF ── */
     (function() {
       const track = document.querySelector('.carousel-track');
       if (!track) return;
-      Array.from(track.children).forEach(item => track.appendChild(item.cloneNode(true)));
+      const originals = Array.from(track.children);
+      originals.forEach(item => {
+        const clone = item.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      });
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        const loopAt = track.children[originals.length].offsetLeft;
+        if (!loopAt) return;
+        let pos = 0, last = null;
+        function tick(ts) {
+          if (!last) last = ts;
+          const dt = ts - last; last = ts;
+          const dur = window.innerWidth <= 960 ? 6000 : 16000;
+          pos += (loopAt / dur) * dt;
+          if (pos >= loopAt) pos -= loopAt;
+          track.style.transform = 'translateX(-' + pos + 'px)';
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }));
     })();
 
     /* ── HEADER scroll ── */
