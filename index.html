@@ -1257,7 +1257,7 @@
         function tick(ts) {
           if (!last) last = ts;
           const dt = ts - last; last = ts;
-          pos += (loopAt / 32000) * dt;
+          pos += (loopAt / 42000) * dt;
           if (pos >= loopAt) pos -= loopAt;
           track.style.transform = 'translateX(-' + pos + 'px)';
           requestAnimationFrame(tick);
