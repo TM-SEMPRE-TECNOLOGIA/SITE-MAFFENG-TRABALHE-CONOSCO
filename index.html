@@ -635,20 +635,29 @@
     }
     .btn-form:hover { background: var(--red-d); transform: translateY(-2px); }
 
-    /* ── GOOGLE FORMS IFRAME ─────────────────────────── */
-    .gform-wrapper {
-      background: transparent;
-      border-radius: var(--radius);
-      overflow: hidden;
-      width: 100%;
+    /* ── FORM — FILE INPUT ───────────────────────────── */
+    .field input[type="file"] {
+      padding: 10px 12px; cursor: pointer;
+      color: rgba(255,255,255,0.35);
     }
-    .gform-iframe {
-      width: 100%;
-      min-height: 964px;
-      border: none;
-      background: transparent;
-      color-scheme: dark;
+    .field input[type="file"]::file-selector-button {
+      font-family: var(--font); font-size: 9px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: rgba(226,0,20,0.12); color: var(--red);
+      border: 1px solid rgba(226,0,20,0.3); border-radius: var(--radius);
+      padding: 6px 14px; margin-right: 12px; cursor: pointer;
+      transition: background .2s;
     }
+    .field input[type="file"]::file-selector-button:hover { background: rgba(226,0,20,0.22); }
+
+    /* ── FORM — STATUS MESSAGES ──────────────────────── */
+    .form-status {
+      padding: 12px 16px; border-radius: var(--radius);
+      font-family: var(--font2); font-size: 14px; line-height: 1.5;
+    }
+    .form-status.success { background: rgba(0,180,80,0.1); border: 1px solid rgba(0,180,80,0.3); color: #00b850; }
+    .form-status.error   { background: rgba(226,0,20,0.1); border: 1px solid rgba(226,0,20,0.3); color: var(--red); }
+    .btn-form:disabled   { opacity: 0.7; cursor: not-allowed; transform: none; }
 
     /* ── FOOTER ──────────────────────────────────────── */
     .footer { background: var(--black); border-top: 1px solid var(--border); }
@@ -1071,25 +1080,48 @@
         <h2 class="trabalhe-title">Faça parte do<br><span style="color: var(--red)">nosso time</span></h2>
         <p class="trabalhe-sub">Quer crescer com a MAFFENG? Envie seus dados e um de nossos recrutadores entrará em contato.</p>
 
-        <!-- ════════════════════════════════════════════════════
-             GOOGLE FORMS — Como configurar:
-             1. Acesse forms.google.com e crie o formulário
-             2. Clique em "Enviar" → ícone "<>" (Incorporar)
-             3. Copie apenas o valor do atributo src do <iframe>
-             4. Cole no atributo src abaixo, substituindo o placeholder
-             ════════════════════════════════════════════════════ -->
-        <div class="gform-wrapper">
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLScojf0Tg2tbzlPzRnUoWvRmOB81xdxksORum9TbPzwXhJdf-g/viewform?embedded=true"
-            class="gform-iframe"
-            frameborder="0"
-            marginheight="0"
-            marginwidth="0"
-            title="Formulário Trabalhe Conosco — MAFFENG"
-          >
-            Carregando…
-          </iframe>
-        </div>
+        <form class="form" id="form-candidatura" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="nome">Nome completo</label>
+              <input type="text" id="nome" placeholder="Seu nome" required>
+            </div>
+            <div class="field">
+              <label for="tel">Telefone / WhatsApp</label>
+              <input type="tel" id="tel" placeholder="(62) 99999-9999" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com" required>
+          </div>
+          <div class="field">
+            <label for="area">Área de interesse</label>
+            <select id="area" required>
+              <option value="" disabled selected>Selecione uma área</option>
+              <option>Manutenção Elétrica</option>
+              <option>Manutenção Civil</option>
+              <option>Refrigeração</option>
+              <option>Obras e Reformas</option>
+              <option>Serviços Técnicos (Termografia / SPDA)</option>
+              <option>Administrativo</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="msg">Conte um pouco sobre você</label>
+            <textarea id="msg" placeholder="Experiência, certificações, disponibilidade..."></textarea>
+          </div>
+          <div class="field">
+            <label for="cv">Currículo — opcional (PDF, DOC ou DOCX · máx. 5 MB)</label>
+            <input type="file" id="cv" accept=".pdf,.doc,.docx">
+          </div>
+          <div id="form-status" class="form-status" style="display:none"></div>
+          <button type="submit" class="btn-form" id="btn-submit">
+            Faça Parte do Nosso Time
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
       </div>
     </div>
   </section>
@@ -1251,6 +1283,85 @@
 
     document.querySelectorAll('.anim-in, .hero-tag, .mapa-img, .mapa-content, .about-img-wrap, .about-content, .trabalhe-left, .trabalhe-right, .num-item, .svc-card').forEach(el => io.observe(el));
     document.getElementById('heroTag') && io.observe(document.getElementById('heroTag'));
+
+    /* ── FORM SUBMIT ──────────────────────────────────── */
+    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwRI_JYvlCvZzouUD5QqYsL5y5KwqsX0gveKujRqVHDgmZFZxSabsQcbn_raa53CRuw/exec';
+    const BTN_LABEL  = 'Faça Parte do Nosso Time <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+
+    document.getElementById('form-candidatura').addEventListener('submit', async function(ev) {
+      ev.preventDefault();
+
+      const btn    = document.getElementById('btn-submit');
+      const status = document.getElementById('form-status');
+      const cvInput = document.getElementById('cv');
+
+      // Validação básica
+      const nome  = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const tel   = document.getElementById('tel').value.trim();
+      const area  = document.getElementById('area').value;
+      if (!nome || !email || !tel || !area) {
+        status.className = 'form-status error';
+        status.textContent = 'Preencha os campos obrigatórios: Nome, E-mail, Telefone e Área.';
+        status.style.display = 'block';
+        return;
+      }
+
+      // Validar tamanho do CV
+      if (cvInput.files[0] && cvInput.files[0].size > 5 * 1024 * 1024) {
+        status.className = 'form-status error';
+        status.textContent = 'Arquivo muito grande. Máximo permitido: 5 MB.';
+        status.style.display = 'block';
+        return;
+      }
+
+      // Estado de loading
+      btn.disabled = true;
+      btn.innerHTML = 'Enviando…';
+      status.style.display = 'none';
+
+      try {
+        const payload = {
+          nome, email, tel, area,
+          msg: document.getElementById('msg').value.trim(),
+          cvBase64: '', cvNome: ''
+        };
+
+        // Converter CV para base64 se houver arquivo
+        if (cvInput.files[0]) {
+          payload.cvNome = cvInput.files[0].name;
+          payload.cvBase64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload  = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(cvInput.files[0]);
+          });
+        }
+
+        // Content-Type: text/plain evita preflight CORS no Apps Script
+        const res  = await fetch(WEBAPP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+
+        if (json.status === 'ok') {
+          status.className = 'form-status success';
+          status.textContent = '✓ Candidatura enviada com sucesso! Entraremos em contato em breve.';
+          this.reset();
+        } else {
+          throw new Error(json.message || 'Erro no servidor');
+        }
+      } catch (err) {
+        status.className = 'form-status error';
+        status.textContent = 'Erro ao enviar. Tente novamente ou fale pelo WhatsApp.';
+      } finally {
+        status.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = BTN_LABEL;
+      }
+    });
   </script>
 </body>
 </html>
