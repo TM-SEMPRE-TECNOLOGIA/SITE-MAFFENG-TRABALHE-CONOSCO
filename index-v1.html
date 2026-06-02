@@ -441,20 +441,13 @@
     .mapa-content.vis { opacity: 1; transform: none; }
     .mapa-body { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.9; margin: 20px 0 28px; }
     .states {
-      display: flex; flex-wrap: wrap; gap: 10px; row-gap: 14px; margin-bottom: 32px;
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 32px;
     }
     .state-pill {
-      font-family: var(--font); font-size: 10.5px; font-weight: 600;
-      letter-spacing: 0.13em;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(204,26,26,0.45);
-      color: rgba(255,255,255,0.88); padding: 6px 14px; border-radius: 5px;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .state-pill.state-more {
-      padding: 6px 20px;
-      border-color: rgba(204,26,26,0.6);
-      color: rgba(255,255,255,0.7);
-      font-style: italic;
+      font-family: var(--font); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em;
+      background: rgba(226,0,20,0.1); border: 1px solid rgba(226,0,20,0.28);
+      color: var(--red); padding: 4px 10px; border-radius: 2px;
     }
 
     /* ── S4 CLIENTES — BRANCO ────────────────────────── */
@@ -480,7 +473,7 @@
     .carousel-blur-right { right: 0; background: linear-gradient(to left,  var(--light) 0%, rgba(245,245,243,0.85) 40%, transparent 100%); }
     .carousel-track {
       display: flex; gap: 42px;
-      animation: marquee 16s linear infinite;
+      animation: marquee 24s linear infinite;
     }
     .carousel-track:hover { animation-play-state: paused; }
     @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
@@ -537,11 +530,11 @@
     .check-icon svg { width: 11px; height: 11px; stroke: var(--red); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── S6 NÚMEROS — CLARO ──────────────────────────── */
-    .numeros { padding: 28px 48px; background: var(--light); }
+    .numeros { padding: 48px 48px; background: var(--light); }
     .numeros-inner {
       max-width: 1200px; margin: 0 auto;
     }
-    .numeros-hd { text-align: center; margin-bottom: 28px; }
+    .numeros-hd { text-align: center; margin-bottom: 56px; }
     .numeros-hd .sec-label { justify-content: center; }
     .nums-grid {
       display: grid; grid-template-columns: repeat(4,1fr); gap: 0;
@@ -576,7 +569,6 @@
       transition: opacity .6s ease, transform .6s ease;
     }
     .trabalhe-left.vis { opacity: 1; transform: none; }
-    .trabalhe-recruit-mobile { display: none; }
     .trabalhe-reviews {
       border-radius: var(--radius); overflow: hidden; margin-bottom: 32px;
     }
@@ -735,11 +727,7 @@
       .services, .mapa, .about, .numeros, .trabalhe { padding: 64px 24px; }
       .mapa-inner, .about-inner, .trabalhe-inner { grid-template-columns: 1fr; gap: 48px; }
       .about-img-wrap { margin-bottom: 24px; }
-      /* badge menor no mobile */
-      .about-badge { right: 0; bottom: -14px; padding: 12px 16px; }
-      .about-badge .n { font-size: 1.5rem; }
-      .about-badge .l { font-size: 9px; }
-
+      .about-badge { right: 0; bottom: -14px; }
       .svc-grid { grid-template-columns: 1fr 1fr; }
       .nums-grid { grid-template-columns: repeat(2,1fr); }
       .num-item:nth-child(2) { border-right: none; }
@@ -750,26 +738,7 @@
       .footer-top { padding: 0 24px; }
       .footer-top-items { gap: 24px; }
       .footer-bottom { padding: 16px 24px; }
-
-      /* carrossel — blurs menores para não engolir os logos */
       .clients { padding: 36px 24px; }
-      .carousel-blur-left, .carousel-blur-right { width: 40px; }
-      .carousel-track { animation-duration: 6s; }
-
-      /* hero */
-      .hero-img { margin-top: var(--hh); }
-      .hero-img-overlay { opacity: 0; }
-      .scroll-hint { display: none; }
-
-      /* footer cta */
-      .btn-footer-orcamento { width: 100%; text-align: center; display: block; padding: 14px 24px !important; margin-bottom: 20px; }
-
-      /* trabalhe — ocultar título e subtítulo, imagem recruitment aparece */
-      .trabalhe-title { display: none; }
-      .trabalhe-sub { display: none; }
-      .trabalhe-reviews { margin-bottom: 24px; }
-      .trabalhe-reviews img { border-radius: 8px; }
-      .trabalhe-recruit-mobile { display: block; width: 100%; border-radius: 8px; margin-bottom: 24px; }
     }
     @media (max-width: 540px) {
       .svc-grid { grid-template-columns: 1fr; }
@@ -807,10 +776,7 @@
 
   <!-- S1 HERO — DOBRA 1: IMAGEM -->
   <section class="hero-img">
-    <picture>
-      <source media="(max-width: 960px)" srcset="images/maffeng_banner_vertical.png">
-      <img src="images/banner hero.png" alt="MAFFENG Engenharia e Manutenção">
-    </picture>
+    <img src="images/banner hero.png" alt="MAFFENG Engenharia e Manutenção">
     <div class="hero-img-overlay"></div>
     <div class="scroll-hint">
       <span>Role para baixo</span>
@@ -963,21 +929,11 @@
         <h2 class="sec-title">Atendemos todo o <span class="accent">território nacional</span></h2>
         <p class="mapa-body">Presente em 385 cidades, a MAFFENG leva soluções de engenharia e manutenção a empresas, órgãos públicos e instituições financeiras em todo o Brasil, com equipe local e gestão centralizada.</p>
         <div class="states">
-          <span class="state-pill">GO</span>
-          <span class="state-pill">SP</span>
-          <span class="state-pill">RJ</span>
-          <span class="state-pill">MG</span>
-          <span class="state-pill">BA</span>
-          <span class="state-pill">DF</span>
-          <span class="state-pill">RS</span>
-          <span class="state-pill">PR</span>
-          <span class="state-pill">SC</span>
-          <span class="state-pill">PE</span>
-          <span class="state-pill">CE</span>
-          <span class="state-pill">MT</span>
-          <span class="state-pill">MS</span>
-          <span class="state-pill">PA</span>
-          <span class="state-pill state-more">+ 13 ESTADOS</span>
+          <span class="state-pill">GO</span><span class="state-pill">SP</span><span class="state-pill">RJ</span>
+          <span class="state-pill">MG</span><span class="state-pill">BA</span><span class="state-pill">DF</span>
+          <span class="state-pill">RS</span><span class="state-pill">PR</span><span class="state-pill">SC</span>
+          <span class="state-pill">PE</span><span class="state-pill">CE</span><span class="state-pill">MT</span>
+          <span class="state-pill">MS</span><span class="state-pill">PA</span><span class="state-pill">+ 13</span>
         </div>
       </div>
     </div>
@@ -1121,7 +1077,6 @@
       </div>
 
       <div class="trabalhe-right">
-        <img src="images/maffeng_recruitment_story.png" alt="MAFFENG — Faça parte do nosso time" class="trabalhe-recruit-mobile">
         <h2 class="trabalhe-title">Faça parte do<br><span style="color: var(--red)">nosso time</span></h2>
         <p class="trabalhe-sub">Quer crescer com a MAFFENG? Envie seus dados e um de nossos recrutadores entrará em contato.</p>
 
@@ -1188,7 +1143,7 @@
           <div class="ft-text"><div class="ft-label">Endereço</div><div class="ft-value">Goiânia — GO</div></div>
         </div>
       </div>
-      <a href="#trabalhe" class="btn-footer-orcamento" style="font-family: var(--font); font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(0,0,0,0.25); color: #fff; padding: 12px 24px; border-radius: var(--radius); white-space: nowrap; transition: background .2s;" onmouseover="this.style.background='rgba(0,0,0,0.4)'" onmouseout="this.style.background='rgba(0,0,0,0.25)'">Solicitar Orçamento</a>
+      <a href="#trabalhe" style="font-family: var(--font); font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(0,0,0,0.25); color: #fff; padding: 12px 24px; border-radius: var(--radius); white-space: nowrap; transition: background .2s;" onmouseover="this.style.background='rgba(0,0,0,0.4)'" onmouseout="this.style.background='rgba(0,0,0,0.25)'">Solicitar Orçamento</a>
     </div>
 
     <div class="footer-main">
