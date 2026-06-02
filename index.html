@@ -1338,21 +1338,18 @@
           });
         }
 
-        // Content-Type: text/plain evita preflight CORS no Apps Script
-        const res  = await fetch(WEBAPP_URL, {
+        // no-cors: envia os dados normalmente, resposta opaca (comportamento esperado com Apps Script)
+        await fetch(WEBAPP_URL, {
           method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload)
         });
-        const json = await res.json();
 
-        if (json.status === 'ok') {
-          status.className = 'form-status success';
-          status.textContent = '✓ Candidatura enviada com sucesso! Entraremos em contato em breve.';
-          this.reset();
-        } else {
-          throw new Error(json.message || 'Erro no servidor');
-        }
+        // Se chegou aqui sem exceção, o envio saiu com sucesso
+        status.className = 'form-status success';
+        status.textContent = '✓ Candidatura enviada com sucesso! Entraremos em contato em breve.';
+        this.reset();
       } catch (err) {
         status.className = 'form-status error';
         status.textContent = 'Erro ao enviar. Tente novamente ou fale pelo WhatsApp.';
