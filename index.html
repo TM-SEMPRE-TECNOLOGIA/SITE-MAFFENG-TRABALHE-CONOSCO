@@ -1250,14 +1250,14 @@
         track.appendChild(clone);
       });
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        const loopAt = track.children[originals.length].offsetLeft;
-        if (!loopAt) return;
+        const firstClone = track.children[originals.length];
+        const loopAt = firstClone.getBoundingClientRect().left - track.getBoundingClientRect().left;
+        if (loopAt <= 0) return;
         let pos = 0, last = null;
         function tick(ts) {
           if (!last) last = ts;
           const dt = ts - last; last = ts;
-          const dur = window.innerWidth <= 960 ? 6000 : 16000;
-          pos += (loopAt / dur) * dt;
+          pos += (loopAt / 16000) * dt;
           if (pos >= loopAt) pos -= loopAt;
           track.style.transform = 'translateX(-' + pos + 'px)';
           requestAnimationFrame(tick);
