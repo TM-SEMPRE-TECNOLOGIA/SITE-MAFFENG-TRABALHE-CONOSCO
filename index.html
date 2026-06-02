@@ -480,10 +480,11 @@
     .carousel-blur-right { right: 0; background: linear-gradient(to left,  var(--light) 0%, rgba(245,245,243,0.85) 40%, transparent 100%); }
     .carousel-track {
       display: flex; gap: 42px;
-      animation: marquee 16s linear infinite;
+      animation: carousel-marquee 16s linear infinite;
     }
     .carousel-track:hover { animation-play-state: paused; }
     @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    @keyframes carousel-marquee { 0%{transform:translateX(0)} 100%{transform:translateX(calc(-50% - 21px))} }
     .cl-logo {
       flex: 0 0 auto; width: 148px; height: 56px;
       display: flex; align-items: center; justify-content: center;
@@ -706,11 +707,13 @@
       background: var(--red); padding: 7px 24px;
       text-align: center;
     }
-    .footer-credit span {
+    .footer-credit span,
+    .footer-credit-link {
       font-family: var(--font); font-size: 10px; font-weight: 600;
       letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.85); text-decoration: none;
     }
+    .footer-credit-link:hover { color: #fff; }
 
     /* ── WA FLOAT ────────────────────────────────────── */
     .wa-float {
@@ -1227,10 +1230,9 @@
 
     <div class="footer-bottom">
       <span>© 2025 MAFFENG Engenharia e Manutenção · CNPJ 33.624.704/0001-94</span>
-      <span>Desenvolvido por <a href="https://thiagonascimentobarbosapro.com" target="_blank" rel="noopener">TM — Sempre Tecnologia</a></span>
     </div>
     <div class="footer-credit">
-      <span>Desenvolvido por TM Sempre Tecnologia</span>
+      <a href="https://thiagonascimentobarbosapro.com" target="_blank" rel="noopener" class="footer-credit-link">Desenvolvido por TM Sempre Tecnologia</a>
     </div>
   </footer>
 
