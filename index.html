@@ -1253,13 +1253,19 @@
         const firstClone = track.children[originals.length];
         const loopAt = firstClone.getBoundingClientRect().left - track.getBoundingClientRect().left;
         if (loopAt <= 0) return;
-        let pos = 0, last = null;
+        let pos = 0, last = null, paused = false;
+        const wrap = track.closest('.carousel-wrap') || track;
+        wrap.addEventListener('mouseenter', () => { paused = true; });
+        wrap.addEventListener('mouseleave', () => { paused = false; last = null; });
         function tick(ts) {
-          if (!last) last = ts;
-          const dt = ts - last; last = ts;
-          pos += (loopAt / 56000) * dt;
-          if (pos >= loopAt) pos -= loopAt;
-          track.style.transform = 'translateX(-' + pos + 'px)';
+          if (!paused) {
+            if (!last) last = ts;
+            const dt = ts - last;
+            pos += (loopAt / 56000) * dt;
+            if (pos >= loopAt) pos -= loopAt;
+            track.style.transform = 'translateX(-' + pos + 'px)';
+          }
+          last = paused ? null : ts;
           requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
